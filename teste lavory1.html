@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lavory Eco | Ecossistema de Tecnologia Agro</title>
+    
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --p-green: #3d4a26; 
+            --a-green: #b2d235; 
+            --soft-green: #e6edde; 
+            --bg: #f8faf5;      
+            --white: #ffffff;
+            --radius-xl: 60px;
+            --radius-md: 32px;
+            --shadow-soft: 0 20px 40px rgba(0,0,0,0.04);
+        }
+
+        /* ROLAGEM SUAVE */
+        html { scroll-behavior: smooth; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg); 
+            color: #2d3423;
+            overflow-x: hidden;
+        }
+
+        /* --- Header & Menu --- */
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .logo { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            color: var(--p-green); 
+            font-weight: 800; 
+            font-size: 1.1rem;
+            text-decoration: none;
+            z-index: 1100;
+        }
+        .logo img { height: 45px; width: auto; display: block; }
+        
+        nav { display: flex; gap: 35px; align-items: center; transition: 0.4s; }
+        nav a { 
+            color: var(--p-green); 
+            text-decoration: none; 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            transition: 0.3s;
+            opacity: 0.8;
+        }
+        nav a:hover { opacity: 1; color: var(--a-green); }
+
+        /* Menu Hambúrguer Icon */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 1100;
+        }
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: var(--p-green);
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(0,0,0,0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            z-index: 1050;
+        }
+        .menu-overlay.active { opacity: 1; visibility: visible; }
+
+        .btn-header {
+            background: var(--a-green);
+            color: var(--p-green);
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+        .btn-mobile-nav { display: none; }
+
+        /* --- Hero Section --- */
+        .hero-container { padding: 120px 5% 40px 5%; }
+        .hero-card {
+            position: relative;
+            width: 100%; height: 550px;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            display: flex; align-items: center;
+            box-shadow: 0 40px 80px rgba(61, 74, 38, 0.15);
+        }
+        .hero-card img {
+            position: absolute; width: 100%; height: 100%;
+            object-fit: cover; transition: transform 6s ease;
+        }
+        .hero-card:hover img { transform: scale(1.1); }
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, rgba(61, 74, 38, 0.85) 0%, rgba(61, 74, 38, 0.2) 100%);
+            z-index: 1;
+        }
+        .hero-text { position: relative; z-index: 2; padding: 80px; max-width: 700px; color: white; }
+        .hero-text h1 { font-size: 3.5rem; font-weight: 800; line-height: 1; margin: 20px 0; }
+        .btn-main { background: var(--a-green); color: var(--p-green); padding: 18px 40px; border-radius: 50px; text-decoration: none; font-weight: 800; display: inline-block; }
+
+        /* --- Grid de Soluções --- */
+        .content-section {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            padding: 60px 5%;
+            gap: 50px;
+        }
+        .solutions-sidebar {
+            background: var(--p-green);
+            border-radius: var(--radius-md);
+            padding: 60px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+        .solutions-sidebar h2 { font-size: 3rem; font-weight: 800; margin: 20px 0; line-height: 1; }
+        .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .card-item {
+            background: var(--white);
+            padding: 40px 30px;
+            border-radius: var(--radius-md);
+            transition: all 0.4s;
+            border: 1px solid rgba(0,0,0,0.03);
+            box-shadow: var(--shadow-soft);
+        }
+        .card-item:hover { transform: translateY(-12px); background: var(--soft-green); border-color: var(--a-green); }
+        .icon-box { width: 50px; height: 50px; background: var(--bg); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; color: var(--a-green); font-size: 1.4rem; }
+
+        /* --- RESPONSIVIDADE E MENU 70% --- */
+        @media (max-width: 1200px) {
+            .cards-grid { grid-template-columns: repeat(2, 1fr); }
+            .content-section { grid-template-columns: 1fr; }
+            .solutions-sidebar { position: static; }
+        }
+
+        @media (max-width: 992px) {
+            .menu-toggle { display: flex; }
+            nav {
+                position: fixed;
+                top: 0; right: -100%; 
+                width: 70%; /* OCUPA 70% DA TELA */
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                padding: 100px 40px;
+                gap: 30px;
+                transition: 0.4s;
+                z-index: 1060;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            }
+            nav.active { right: 0; }
+            .btn-header { display: none; }
+            .btn-mobile-nav { 
+                display: block !important; 
+                background: var(--a-green); 
+                padding: 15px; 
+                border-radius: 50px; 
+                text-align: center; 
+                color: var(--p-green); 
+                font-weight: 800; 
+                text-decoration: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2.5rem; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .hero-text { padding: 40px; }
+        }
+
+        /* Animação do Hambúrguer (X) */
+        .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+        footer { padding: 40px 5%; text-align: center; background: #eef2e8; margin-top: 50px; border-radius: 60px 60px 0 0; }
+        .wa-float { position: fixed; bottom: 40px; right: 40px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; z-index: 1000; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="menu-overlay" id="overlay"></div>
+
+    <header>
+        <a href="#" class="logo">
+            <img src="logo.png" alt="Lavory Eco">
+            LAVORY ECO
+        </a>
+        
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span><span></span><span></span>
+        </div>
+
+        <nav id="nav-menu">
+            <a href="#home">Home</a>
+            <a href="#solucoes">Soluções</a>
+            <a href="#footer">Projetos</a>
+            <a href="#footer">Blog</a>
+            <a href="https://wa.me/5511993478363" class="btn-mobile-nav">FALAR COM ESPECIALISTA</a>
+        </nav>
+
+        <a href="https://wa.me/5511993478363" class="btn-header">FALAR COM ESPECIALISTA</a>
+    </header>
+
+    <div id="home" class="hero-container">
+        <section class="hero-section">
+            <div class="hero-card">
+                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2000" alt="Campo Agro">
+                <div class="hero-overlay"></div>
+                <div class="hero-text">
+                    <span>Inovação Sustentável</span>
+                    <h1>Ecossistema de<br>Tecnologia Agro</h1>
+                    <p>Líderes em hidrossemeadura mecanizada e recuperação de solos degradados com precisão tecnológica.</p>
+                    <a href="#solucoes" class="btn-main">CONHECER SOLUÇÕES <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <main id="solucoes" class="content-section">
+        <aside class="solutions-sidebar">
+            <span style="font-weight: 700; color: var(--a-green); letter-spacing: 2px;">O QUE FAZEMOS</span>
+            <h2>Nossas Soluções</h2>
+            <p>Unimos biotecnologia e engenharia para devolver a vida ao solo de forma rápida, eficiente e com baixo custo operacional.</p>
+            <a href="#" class="btn-main" style="background: white; color: var(--p-green); padding: 12px 30px;">VER PORTFÓLIO</a>
+        </aside>
+
+        <div class="cards-grid">
+            <div class="card-item">
+                <div class="icon-box"><i class="fas fa-location-crosshairs"></i></div>
+                <h3>Diferencial A</h3>
+                <p>Análise georreferenciada para aplicação exata de insumos, reduzindo desperdícios em até 40%.</p>
+            </div>
+            <div class="card-item">
+                <div class="icon-box"><i class="fas fa-droplet"></i></div>
+                <h3>Hidrogel Pro</h3>
+                <p>Retenção hídrica avançada que garante a sobrevivência das sementes mesmo em períodos de estiagem.</p>
+            </div>
+            <div class="card-item">
+                <div class="icon-box"><i class="fas fa-microchip"></i></div>
+                <h3>IA no Campo</h3>
+                <p>Algoritmos que identificam o melhor mix de sementes nativas para cada tipo de topografia.</p>
+            </div>
+            <div class="card-item">
+                <div class="icon-box"><i class="fas fa-shield-halved"></i></div>
+                <h3>Controle de Erosão</h3>
+                <p>Fixação imediata do solo em taludes e encostas através de polímeros biodegradáveis.</p>
+            </div>
+            <div class="card-item">
+                <div class="icon-box"><i class="fas fa-chart-line"></i></div>
+                <h3>Resultados</h3>
+                <p>Monitoramento pós-plantio com relatórios mensais de cobertura vegetal e biomassa.</p>
+            </div>
+            <div class="card-item">
+                <div class="icon-box"><i class="fas fa-hand-holding-heart"></i></div>
+                <h3>Eco Social</h3>
+                <p>Projetos focados na revitalização de áreas urbanas e lazer para comunidades locais.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer id="footer">
+        <p>&copy; 2026 Lavory Eco - Tecnologia a serviço da natureza.</p>
+        <div style="margin-top: 20px; font-size: 1.2rem; color: var(--p-green); display: flex; justify-content: center; gap: 20px;">
+            <i class="fab fa-instagram"></i>
+            <i class="fab fa-linkedin"></i>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/5511993478363" class="wa-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        const menuToggle = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+        const overlay = document.getElementById('overlay');
+
+        function toggleMenu() {
+            menuToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                if(navMenu.classList.contains('active')) toggleMenu();
+            });
+        });
+    </script>
+</body>
+</html>
